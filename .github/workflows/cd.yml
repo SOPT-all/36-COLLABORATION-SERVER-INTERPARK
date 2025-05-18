@@ -1,0 +1,60 @@
+name: CD
+
+on:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  deploy-ci:
+    runs-on: ubuntu-22.04
+
+    steps: 
+    - name: 코드 체크아웃
+      uses: actions/checkout@v3
+
+    - name: JDK 17 설치
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: application.yml 생성
+      run: | 
+        mkdir -p src/main/resources
+        echo "${{ secrets.APPLICATION }}" > src/main/resources/application.yml
+
+    - name: 프로젝트 빌드
+      run: |
+        chmod +x gradlew
+        ./gradlew build -x test
+      shell: bash
+
+    - name: Docker 빌드 환경 설정
+      uses: docker/setup-buildx-action@v2.9.1
+
+    - name: DockerHub 로그인
+      uses: docker/login-action@v2.2.0
+      with:
+        username: ${{ secrets.DOCKERHUB_LOGIN_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_LOGIN_ACCESSTOKEN }}
+
+    - name: Docker 이미지 빌드 및 푸시
+      run: |
+        docker build --platform linux/amd64 -t woals2840/interpark .
+        docker push woals2840/interpark
+
+  deploy-cd:      
+    needs: deploy-ci
+    runs-on: ubuntu-22.04
+
+    steps:    
+    - name: EC2 서버에 배포
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.RELEASE_SERVER_IP }}
+        username: ${{ secrets.RELEASE_SERVER_USER }}
+        key: ${{ secrets.RELEASE_SERVER_KEY }}
+        script: |
+          docker rm -f interpark || true
+          docker pull woals2840/interpark
+          docker run -d --restart unless-stopped --name interpark -p 8081:8080 woals2840/interpark
