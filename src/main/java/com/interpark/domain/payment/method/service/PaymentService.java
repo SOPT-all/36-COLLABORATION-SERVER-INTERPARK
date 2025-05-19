@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.interpark.domain.payment.method.dto.request.PayTicketRequest;
+import com.interpark.domain.payment.method.dto.response.GetPaymentInfoResponse;
 import com.interpark.domain.payment.method.dto.response.GetPaymentMethodListRes;
 import com.interpark.domain.payment.method.dto.response.GetPaymentMethodResponse;
 import com.interpark.domain.payment.method.repository.PaymentRepository;
@@ -21,6 +23,11 @@ public class PaymentService {
 			.map(GetPaymentMethodResponse::of)
 			.toList();
 		GetPaymentMethodListRes response = GetPaymentMethodListRes.of(getPaymentMethodResponse);
+		return response;
+	}
+
+	public GetPaymentInfoResponse getPaymentInfo(PayTicketRequest request){
+		GetPaymentInfoResponse response = GetPaymentInfoResponse.of(request);
 		return response;
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.interpark.domain.payment.method.dto.request.PayTicketRequest;
+import com.interpark.domain.payment.method.dto.response.GetPaymentInfoResponse;
 import com.interpark.domain.payment.method.dto.response.GetPaymentMethodListRes;
 import com.interpark.domain.payment.method.service.PaymentService;
 import com.interpark.global.dto.SuccessResponse;
@@ -30,6 +31,7 @@ public class PaymentController {
 
 	@PostMapping
 	public ResponseEntity<SuccessResponse<?>> payTicket(@RequestBody PayTicketRequest payTicketRequest){
-		return ResponseEntity.ok(SuccessResponse.of(SuccessCode.SUCCESS_CREATE));
+		GetPaymentInfoResponse response = paymentService.getPaymentInfo(payTicketRequest);
+		return ResponseEntity.ok(SuccessResponse.of(SuccessCode.SUCCESS_CREATE, response));
 	}
 }
