@@ -31,7 +31,7 @@ public class Reservation {
     @JoinColumn(name = "user_id")
     private User user;                      // 예매자
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_method_detail_id")
     private PaymentMethodDetail paymentMethodDetail;    // 결제 수단 상세
 
