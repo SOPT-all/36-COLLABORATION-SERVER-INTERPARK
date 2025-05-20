@@ -1,8 +1,6 @@
 package com.interpark.domain.seat.detail.service;
 
-import com.interpark.domain.seat.detail.dto.SeatPatchDto;
-import com.interpark.domain.seat.detail.dto.SeatPatchRequest;
-import com.interpark.domain.seat.detail.dto.SeatRowDto;
+import com.interpark.domain.seat.detail.dto.*;
 import com.interpark.domain.seat.detail.entity.SeatDetail;
 import com.interpark.domain.seat.detail.repository.SeatDetailRepository;
 import com.interpark.domain.seat.entity.Seat;
@@ -11,6 +9,7 @@ import com.interpark.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -64,5 +63,25 @@ public class SeatDetailService {
                     return SeatPatchDto.of(seatDetail.getSeat().getSeatGrade(), seatDetail.getRowAlphabet(), seatDetail.getSeatNumber());
                 })
                 .toList());
+    }
+
+    public DateResponse getPerformance(){
+        int rSeatCount = seatDetailRepository.countByIsSoldAndSeatSeatGrade("R");
+        int sSeatCount = seatDetailRepository.countByIsSoldAndSeatSeatGrade("S");
+
+        List<SeatGradeDto> seatGradeDtos = List.of(
+                new SeatGradeDto("R", 66000, rSeatCount),
+                new SeatGradeDto("S", 44000, sSeatCount));
+
+        PerformanceDto performanceDto = new PerformanceDto(
+                "연극 <프라이드>: 연극 열전10_다섯 번째 작품",
+                "예스24아트원 2관",
+                "/images/poster001.png",
+                "연극",
+                "170분",
+                16, LocalTime.of(19, 30), "이형훈, 김이준, 홍금비, 박성현"
+        );
+
+        return new DateResponse(performanceDto, seatGradeDtos);
     }
 }

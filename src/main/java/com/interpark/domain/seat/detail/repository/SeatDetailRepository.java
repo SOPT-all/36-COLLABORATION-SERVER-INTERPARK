@@ -15,4 +15,7 @@ public interface SeatDetailRepository extends JpaRepository<SeatDetail, Long> {
 
     @Query("SELECT sd FROM SeatDetail sd WHERE sd.rowAlphabet = :rowAlphabet AND sd.seatNumber = :seatNumber")
     Optional<SeatDetail> findByRowAlphabetAndSeatNumber(char rowAlphabet, int seatNumber);
+
+    @Query("SELECT COUNT(sd) FROM SeatDetail sd WHERE sd.isSold = false And sd.seat.seatGrade = :seatGrade")
+    int countByIsSoldAndSeatSeatGrade(String seatGrade);
 }

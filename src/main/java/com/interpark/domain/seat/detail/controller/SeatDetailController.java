@@ -1,6 +1,6 @@
 package com.interpark.domain.seat.detail.controller;
 
-import com.interpark.domain.seat.detail.dto.SeatPatchDto;
+import com.interpark.domain.seat.detail.dto.DateResponse;
 import com.interpark.domain.seat.detail.dto.SeatPatchRequest;
 import com.interpark.domain.seat.detail.dto.SeatResponse;
 import com.interpark.domain.seat.detail.dto.SeatRowDto;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/tickets/seat")
+@RequestMapping("/api/v1/tickets")
 @RequiredArgsConstructor
 public class SeatDetailController {
 
@@ -35,5 +35,11 @@ public class SeatDetailController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(SuccessResponse.of(SuccessCode.SUCCESS_CREATE,  seatDetailService.updateSeats(seatPatchRequest)));
+    }
+
+    @GetMapping("/date")
+    public ResponseEntity<SuccessResponse<DateResponse>> getDatePerformance(){
+
+        return ResponseEntity.ok(SuccessResponse.of(SuccessCode.SUCCESS_FETCH, seatDetailService.getPerformance()));
     }
 }

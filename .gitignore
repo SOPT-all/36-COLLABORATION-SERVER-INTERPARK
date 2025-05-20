@@ -37,5 +37,4 @@ out/
 .vscode/
 
 application.yml
-
 DataInitializer.java
