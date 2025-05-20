@@ -1,5 +1,7 @@
 package com.interpark.domain.tag.entity;
 
+import com.interpark.domain.performance.entity.Performance;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -17,10 +19,15 @@ public class Tag {
     private Long id;
 
     @Column(nullable = false)
-    private String tagName;     // 태그명
+    private String tagName;  // 태그명
+
+    @ManyToOne(targetEntity = Performance.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "performance_id", nullable = true)
+    private Performance performance;
 
     @Builder
-    public Tag(String tagName) {
+    public Tag(String tagName, Performance performance) {
         this.tagName = tagName;
+        this.performance = performance;
     }
 }
