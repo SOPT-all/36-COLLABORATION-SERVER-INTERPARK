@@ -57,4 +57,4 @@ jobs:
         script: |
           docker rm -f interpark || true
           docker pull woals2840/interpark
-          docker run -d --restart unless-stopped --name interpark -p 8081:8080 woals2840/interpark
+          docker run -d --restart unless-stopped --name interpark -p 8080:8080 woals2840/interpark
