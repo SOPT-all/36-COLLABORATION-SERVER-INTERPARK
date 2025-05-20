@@ -1,4 +1,4 @@
-package com.interpark.config;
+package com.interpark.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
