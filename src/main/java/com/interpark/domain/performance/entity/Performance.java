@@ -32,7 +32,10 @@ public class Performance {
     private LocalDate startDate;    // 시작 날짜 (yyyy-MM-dd)
 
     @Column
-    private LocalDate endDate;      // 종료 날짜 (yyyy-MM-dd)
+    private LocalDate endDate; // 종료 날짜 (yyyy-MM-dd)
+
+    @Column
+    private String openDate;
 
     @Column
     private int ageLimit;           // 관람 연령 (ex. 16 -> 만 16세 이상)
