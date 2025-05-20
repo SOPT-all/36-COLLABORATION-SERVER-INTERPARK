@@ -36,7 +36,7 @@ public class PerformanceService {
 				.endDate(p.getEndDate())
 				.build())
 			.toList();
-		data.add(GetHomeListResponse.of("장르별랭킹", List.of("뮤지컬", "콘서트", "스포츠"), genreList));
+		data.add(GetHomeListResponse.of("장르별 랭킹", List.of("뮤지컬", "콘서트", "스포츠","클래식", "연극"), genreList));
 
 		// 할인 중인 공연
 		List<GetHomeResponse> discountList = performanceRepository.findAllByCategory(Category.DISCOUNT)
@@ -92,7 +92,7 @@ public class PerformanceService {
 				.imageUrl(p.getImageUrl())
 				.build())
 			.toList();
-		data.add(GetHomeListResponse.of("NOLPLAY", List.of("뮤지컬", "콘서트", "스포츠"), nolList));
+		data.add(GetHomeListResponse.of("NOL PLAY", List.of("뮤지컬", "콘서트", "스포츠", "전시/행사", "클래식"), nolList));
 
 		// 곧오픈하는 공연
 		List<GetHomeResponse> soonList = performanceRepository.findAllByCategory(Category.SOON)
@@ -106,7 +106,7 @@ public class PerformanceService {
 				.tagList(List.of("HOT", "단독판매"))
 				.build())
 			.toList();
-		data.add(GetHomeListResponse.of("곧오픈하는공연", null, soonList));
+		data.add(GetHomeListResponse.of("곧 오픈하는 공연", null, soonList));
 
 		return data;
 	}
