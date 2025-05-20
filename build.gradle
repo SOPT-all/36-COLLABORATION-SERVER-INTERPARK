@@ -30,9 +30,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
-	//security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-
 	//mysql
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
@@ -42,7 +39,6 @@ dependencies {
 
 	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	//actuator
