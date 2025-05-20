@@ -1,9 +1,13 @@
 package com.interpark.domain.seat.detail.service;
 
+import com.interpark.domain.seat.detail.dto.SeatPatchDto;
+import com.interpark.domain.seat.detail.dto.SeatPatchRequest;
 import com.interpark.domain.seat.detail.dto.SeatRowDto;
 import com.interpark.domain.seat.detail.entity.SeatDetail;
 import com.interpark.domain.seat.detail.repository.SeatDetailRepository;
 import com.interpark.domain.seat.entity.Seat;
+import com.interpark.global.error.code.ErrorCode;
+import com.interpark.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +47,22 @@ public class SeatDetailService {
         }
 
         return result;
+    }
+
+    // 좌석 선택
+    public SeatPatchRequest updateSeats(SeatPatchRequest seatPatchRequest){
+
+        return new SeatPatchRequest(seatPatchRequest.seats().stream()
+                .map(sd -> {
+                    SeatDetail seatDetail = seatDetailRepository.findByRowAlphabetAndSeatNumber(sd.row().charAt(0), sd.number())
+                            .orElseThrow(() -> new BusinessException(ErrorCode.DATA_NOT_FOUND));
+
+                    if (seatDetail.isSold()) {
+                        throw new BusinessException(ErrorCode.BAD_REQUEST_DATA);
+                    }
+
+                    return SeatPatchDto.of(seatDetail.getSeat().getSeatGrade(), seatDetail.getRowAlphabet(), seatDetail.getSeatNumber());
+                })
+                .toList());
     }
 }
