@@ -24,9 +24,8 @@ public class SeatDetailService {
         List<SeatDetail> all = seatDetailRepository.findAllWithSeat(); // 좌석과 seat fetch join 포함
 
         // rowAlphabet + grade 기준으로 그룹핑
-        Map<String, List<SeatDetail>> grouped = all.stream()
-                .collect(Collectors.groupingBy(seatDetail ->
-                        seatDetail.getRowAlphabet() + "_" + seatDetail.getSeat().getSeatGrade()));
+        Map<Character, List<SeatDetail>> grouped = all.stream()
+                .collect(Collectors.groupingBy(SeatDetail::getRowAlphabet));
 
         List<SeatRowDto> result = new ArrayList<>();
 
@@ -37,7 +36,7 @@ public class SeatDetailService {
             char row = group.get(0).getRowAlphabet();
 
             List<Boolean> availability = group.stream()
-                    .map(sd -> !sd.isSold()) // 매진되지 않은 것이 true
+                    .map(SeatDetail::isSold) // 매진되지 않은 것이 false
                     .collect(Collectors.toList());
 
             result.add(new SeatRowDto(seat.getSeatGrade(), seat.getSeatPrice(), row, availability));
