@@ -2,6 +2,7 @@ package com.interpark.domain.seat.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +21,10 @@ public class Seat {
 
     @Column(nullable = false)
     private int seatPrice;          // 좌석 가격 (ex. 18000)
+
+    @Builder
+    public Seat(String seatGrade, int seatPrice) {
+        this.seatGrade = seatGrade;
+        this.seatPrice = seatPrice;
+    }
 }
