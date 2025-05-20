@@ -46,7 +46,7 @@ public class PerformanceService {
 				.title(p.getTitle())
 				.imageUrl(p.getImageUrl())
 				.location(p.getLocation())
-				.startDate(p.getStartDate())
+				.openDate(p.getOpenDate())
 				.endDate(p.getEndDate())
 				.discountRate(p.getDiscountRate())
                 .price(p.getPrice())

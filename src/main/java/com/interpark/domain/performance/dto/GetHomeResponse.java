@@ -19,9 +19,10 @@ public record GetHomeResponse(
 	LocalDate startDate,
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM.dd", timezone = "Asia/Seoul")
 	LocalDate endDate,
-	Integer discountRate,
-	Integer price,
+	int discountRate,
+	int price,
 	String description,
-	List<String> tagList
+	List<String> tagList,
+	String openDate
 ) {
 }
