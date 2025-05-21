@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/tickets/seat")
+@RequestMapping("/api/v1/tickets")
 @RequiredArgsConstructor
 public class SeatDetailController {
 
     private final SeatDetailService seatDetailService;
 
     // 좌석 상태 조회
-    @GetMapping
+    @GetMapping("/seat")
     public ResponseEntity<SuccessResponse<SeatResponse>> getSeatStatus(){
         List<SeatRowDto> seatStatus = seatDetailService.getSeatStatus();
 
@@ -30,7 +30,7 @@ public class SeatDetailController {
     }
 
     // 좌석 선택
-    @PatchMapping
+    @PatchMapping("/seat")
     public ResponseEntity<SuccessResponse<SeatPatchRequest>> updateSeatStatus(@RequestBody SeatPatchRequest seatPatchRequest){
 
         return ResponseEntity.status(HttpStatus.CREATED)
