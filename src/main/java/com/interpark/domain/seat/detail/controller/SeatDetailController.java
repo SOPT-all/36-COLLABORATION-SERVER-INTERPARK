@@ -30,7 +30,7 @@ public class SeatDetailController {
     }
 
     // 좌석 선택
-    @PatchMapping("/seat")
+    @PostMapping("/seat")
     public ResponseEntity<SuccessResponse<SeatPatchRequest>> updateSeatStatus(@RequestBody SeatPatchRequest seatPatchRequest){
 
         return ResponseEntity.status(HttpStatus.CREATED)
