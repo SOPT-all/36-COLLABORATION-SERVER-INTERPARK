@@ -8,6 +8,7 @@ import com.interpark.global.error.code.ErrorCode;
 import com.interpark.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class SeatDetailService {
     }
 
     // 좌석 선택
+    @Transactional
     public SeatPatchRequest updateSeats(SeatPatchRequest seatPatchRequest){
 
         return new SeatPatchRequest(seatPatchRequest.seats().stream()
@@ -59,6 +61,8 @@ public class SeatDetailService {
                     if (seatDetail.isSold()) {
                         throw new BusinessException(ErrorCode.BAD_REQUEST_DATA);
                     }
+
+                    seatDetail.setSold(true); // 상태 변경
 
                     return SeatPatchDto.of(seatDetail.getSeat().getSeatGrade(), seatDetail.getRowAlphabet(), seatDetail.getSeatNumber());
                 })

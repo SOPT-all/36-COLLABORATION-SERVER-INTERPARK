@@ -44,4 +44,8 @@ public class SeatDetail {
         this.seat = seat;
         this.reservation = reservation;
     }
+
+    public void setSold(boolean isSold) {
+        this.isSold = isSold;
+    }
 }
