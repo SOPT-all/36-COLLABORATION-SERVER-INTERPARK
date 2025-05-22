@@ -12,7 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**")
 			.allowedOrigins(
 				"http://localhost:5173",
-				"http://localhost:4173"
+				"http://localhost:4173",
+				"https://36-collaboration-web-interpark-ticket.vercel.app/"
 			)
 			.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
 			.allowCredentials(true);
