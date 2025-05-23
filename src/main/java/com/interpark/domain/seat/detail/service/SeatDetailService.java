@@ -42,7 +42,7 @@ public class SeatDetailService {
             char row = group.get(0).getRowAlphabet();
 
             List<Boolean> availability = group.stream()
-                    .map(sd -> !sd.isSold()) // 매진되지 않은 것이 true
+                    .map(sd -> sd.isSold()) // 매진되지 않은 것이 false
                     .collect(Collectors.toList());
 
             result.add(new SeatRowDto(seat.getSeatGrade(), seat.getSeatPrice(), row, availability));
