@@ -7,6 +7,7 @@ import com.interpark.domain.seat.entity.Seat;
 import com.interpark.global.error.code.ErrorCode;
 import com.interpark.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SeatDetailService {
@@ -40,7 +42,7 @@ public class SeatDetailService {
             char row = group.get(0).getRowAlphabet();
 
             List<Boolean> availability = group.stream()
-                    .map(SeatDetail::isSold) // 매진되지 않은 것이 false
+                    .map(sd -> !sd.isSold()) // 매진되지 않은 것이 true
                     .collect(Collectors.toList());
 
             result.add(new SeatRowDto(seat.getSeatGrade(), seat.getSeatPrice(), row, availability));
@@ -70,12 +72,12 @@ public class SeatDetailService {
     }
 
     public DateResponse getPerformance(){
-        int rSeatCount = seatDetailRepository.countByIsSoldAndSeatSeatGrade("R");
-        int sSeatCount = seatDetailRepository.countByIsSoldAndSeatSeatGrade("S");
+        List<SeatDetail> rSeatCount = seatDetailRepository.findAvailableSeatsByGrade("R");
+        List<SeatDetail> sSeatCount = seatDetailRepository.findAvailableSeatsByGrade("S");
 
         List<SeatGradeDto> seatGradeDtos = List.of(
-                new SeatGradeDto("R", 66000, rSeatCount),
-                new SeatGradeDto("S", 44000, sSeatCount));
+                new SeatGradeDto("R", 66000, rSeatCount.size()),
+                new SeatGradeDto("S", 44000, sSeatCount.size()));
 
         PerformanceDto performanceDto = new PerformanceDto(
                 "연극 <프라이드>: 연극 열전10_다섯 번째 작품",
